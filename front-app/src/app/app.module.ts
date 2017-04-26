@@ -30,23 +30,29 @@ import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService }  from './in-memory-data.service';
 
 import { AppComponent }         from './app.component';
+import { AuthService }          from './auth.service';
 import { ScheduleComponent }    from './schedule/schedule.component';
 import { ScheduleService }      from './schedule/schedule.service';
+import { LoginComponent }       from './l0gin/login.component';
+import { LoginButton }          from './l0gin/login.button';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ScheduleComponent
+    ScheduleComponent,
+    LoginComponent,
+    LoginButton
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    InMemoryWebApiModule.forRoot(InMemoryDataService),
+    InMemoryWebApiModule.forRoot(InMemoryDataService, {passThruUnknownUrl: true}),
     AppRouterModule
   ],
   providers: [
-    ScheduleService
+    ScheduleService,
+    AuthService
   ],
   bootstrap: [AppComponent]
 })

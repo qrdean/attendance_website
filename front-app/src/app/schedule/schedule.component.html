@@ -1,3 +1,8 @@
+<h1>{{weekday[date.getDay()]}} {{month[date.getMonth()]}}{{date | date: ' dd, yyyy'}}</h1>
+<h2>{{clock | async | date:'mediumTime'}}</h2>
+<p>
+  <span class="greet" *ngIf="greeting">{{greeting.id}} {{greeting.content}}</span>
+</p>
 <p>
   <span>{{message}}</span>
 </p>
@@ -16,4 +21,7 @@
     </button>
   </tr>
 </table>
+<p>
+  <button (click)="logout()">Logout</button>
+</p>
 <!-- put this on the <tr *ngFor> tag [routerLink]="['/detail', schedule.crn]" -->

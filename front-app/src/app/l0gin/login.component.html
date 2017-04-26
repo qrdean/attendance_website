@@ -1,0 +1,15 @@
+<h1>Login</h1>
+<h2>Please enter your Sam Houston username and password</h2>
+<div>
+  <label>Username: </label>
+  <input type="text" id="uname" [(ngModel)]="user.name">
+</div>
+<div>
+<label>Password: </label>
+<input type="password" id="pwd" [(ngModel)]="user.password">
+</div>
+<p>
+  <button (click)="login()">Login</button>
+</p>
+<p>{{message}}</p>
+<!-- (click)="login()"-->

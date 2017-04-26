@@ -9,49 +9,31 @@ export class InMemoryDataService implements InMemoryDbService {
   createDb() {
     let schedules = [
       {
-        crn: 1304,
-        courseName: 'Java I',
-        professor: 'Varol',
-        room: 204,
+        crn: 20204,
+        courseName: 'compiler design',
+        professor: '666666',
+        room: "AB1-206",
         classDay: 'MWF',
-        classTime: '11:00',
-        attended: 0
+        classTime: '02:00',
+        numberOfSessions: 31
       },
       {
-        crn: 1305,
-        courseName: 'Java II',
-        professor: 'Cho',
-        room: 204,
-        classDay: 'TR',
-        classTime: '08:00',
-        attended: 0
-      },
-      {
-        crn: 2339,
-        courseName: 'McGuire I',
-        professor: 'McGuire',
-        room: 206,
+        crn: 20207,
+        courseName: 'software engineering',
+        professor: '666666',
+        room: "AB1-206",
         classDay: 'MWF',
-        classTime: '10:00',
-        attended: 0
+        classTime: '09:00',
+        numberOfSessions: 47
       },
       {
-        crn: 3339,
-        courseName: 'McGuire II',
-        professor: 'McGuire',
-        room: 206,
-        classDay: 'TR',
-        classTime: '13:00',
-        attended: 0
-      },
-      {
-        crn: 3345,
-        courseName: 'Data Structures',
-        professor: 'Burris',
-        room: 204,
+        crn: 20215,
+        courseName: 'operating systems',
+        professor: '666666',
+        room: "AB1-206",
         classDay: 'MWF',
-        classTime: '08:00',
-        attended: 0
+        classTime: '12:00',
+        numberOfSessions: 47
       },
     ];
     return {schedules};
