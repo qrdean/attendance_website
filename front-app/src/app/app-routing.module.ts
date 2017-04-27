@@ -12,15 +12,16 @@ Quinton Dean  4/10/2017 Added paths for future modules
 
 import { NgModule }             from '@angular/core';
 import { RouterModule, Routes}  from '@angular/router';
+import { AuthGuard }            from './auth-guard.service';
 
 import { ScheduleComponent }    from './schedule/schedule.component';
 import { LoginComponent }       from './l0gin/login.component';
-import { AuthGuard }            from './auth-guard.service';
+import { StatsComponent }       from './stats/stats.component';
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'schedule', component: ScheduleComponent },
   { path: 'login', component: LoginComponent },  // switch to LoginComponent once login is complete
-  { path: 'stats/:crn', component: ScheduleComponent }   // switch to StatsComponent once login is complete
+  { path: 'stats/:crn', component: StatsComponent }   // switch to StatsComponent once login is complete
 ];
 
 @NgModule({

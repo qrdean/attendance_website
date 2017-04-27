@@ -35,13 +35,16 @@ import { ScheduleComponent }    from './schedule/schedule.component';
 import { ScheduleService }      from './schedule/schedule.service';
 import { LoginComponent }       from './l0gin/login.component';
 import { LoginButton }          from './l0gin/login.button';
+import { StatsComponent }       from './stats/stats.component';
+import { StatService }          from './stats/stats.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     ScheduleComponent,
     LoginComponent,
-    LoginButton
+    LoginButton,
+    StatsComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +55,8 @@ import { LoginButton }          from './l0gin/login.button';
   ],
   providers: [
     ScheduleService,
-    AuthService
+    AuthService,
+    StatService
   ],
   bootstrap: [AppComponent]
 })

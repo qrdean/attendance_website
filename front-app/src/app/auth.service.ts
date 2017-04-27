@@ -15,7 +15,7 @@ export class AuthService {
   isLoggedIn: boolean = false;
   private loginUrl = 'api/login';
   private headers = new Headers({'Content-Type': 'application/json'});
-  private loginUrlReal = 'http://50.24.235.40:8080/login';
+  private loginUrlReal = 'http://50.24.235.40:8080/login2';
   redirectUrl: string;
   constructor(private http: Http) { }
 
@@ -27,9 +27,14 @@ export class AuthService {
   // id string
   // password string
   login(user: User): Promise<boolean> {
-    return this.http.post(this.loginUrlReal, {id: user.name, password: user.password, permission: user.permission}, {headers: this.headers})
+    var creds = "userid=" + user.name + "&password=" + user.password;
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+    return this.http.post(this.loginUrlReal,
+                          creds,
+                    {headers: headers})
                     .toPromise()
-                    .then((val => this.isLoggedIn=true) )
+                    .then((val => val.json() as boolean) )
                     .catch(this.handleError);
   }
 

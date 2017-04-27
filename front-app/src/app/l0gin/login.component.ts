@@ -1,3 +1,10 @@
+/*
+This page specifies the login commands and sends a Promise to the backend
+to verify the user is in the table
+
+Quinton Dean  4/25/2017 Created file
+
+*/
 import { Component }    from '@angular/core';
 import { Router }       from '@angular/router';
 import { User }         from './user';
@@ -14,7 +21,7 @@ export class LoginComponent {
   user: User = {
     name: '',
     password: '',
-    permission: ''
+    permission: 'S'
   };
 
     constructor(public authService: AuthService,
@@ -27,16 +34,17 @@ export class LoginComponent {
     }
 
     login() {
-      this.message = this.user.name;
+      this.message = this.user.name + this.user.password;
 
-      this.authService.login(this.user).then(() => {
+      this.authService.login(this.user).then/*subscribe*/(bool => {
         this.setMessage();
+        this.authService.isLoggedIn = bool
         if(this.authService.isLoggedIn) {
           let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/schedule';
-          this.message = 'Redirected';
+          this.message = this.authService.isLoggedIn.toString();
           this.router.navigate([redirect]);
         } else {
-          this.message = 'failed'
+          this.message = this.authService.isLoggedIn.toString();
         }
       });
     }

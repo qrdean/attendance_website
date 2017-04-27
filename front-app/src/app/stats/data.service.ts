@@ -22,12 +22,12 @@ import 'rxjs/add/operator/toPromise';
 /**Allows other files to import*/
 @Injectable()
 
-export class StatService {
+export class DataService {
 //Allows DataService to get data
 //Old get Data
-//   getData(): Promise<Data> {
+//   getData(): Promise<Data> { 		
 //      return Promise.resolve(ALLDATA);
-//   }
+//   }  
 //Step 4 - updated getData and new class members
 				//DEBUG/////////////////////////////////////////////////
   private dataUrl = 'api/datas';  // URL to web api
@@ -43,3 +43,4 @@ export class StatService {
     return Promise.reject(error.message || error);
   }
 }
+

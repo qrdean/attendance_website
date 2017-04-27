@@ -12,7 +12,7 @@
     <th>Course Name</th>
     <th>Time</th>
   </tr>
-  <tr *ngFor="let schedule of schedules" class="data">
+  <tr *ngFor="let schedule of schedules" class="data" [routerLink]="['/stats', schedule.crn]">
     <td class="crn">{{schedule.crn}}</td>
     <td class="courseName">{{schedule.courseName}}</td>
     <td>{{schedule.classTime}}</td>
