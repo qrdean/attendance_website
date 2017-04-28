@@ -4,36 +4,51 @@ Purpose: Creates student statistics page
 Error Type: Need to accept data from backend
 */
 
-import { Component, OnInit }  from '@angular/core';
-import { StatService }        from './stats.service';
-import {Data }                from './data';
+import { Component, OnInit }      from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Location }               from '@angular/common';
+
+import { StatService }            from './stats.service';
+import { SharedService }          from '../shared.service';
+import { ScheduleService }        from '../schedule/schedule.service';
+import { Schedule }               from '../schedule/schedule';
+import { Data }                   from './data';
 
 @Component({
   selector: 'my-stats',
-  template: `
-  <h1>Statistics Page</h1>
-  <h2>Hello {{stuName}}</h2>
-  <h2>{{courseName}}</h2>
-  <div *ngFor="let data of datas" >
-  	<h3>Mean: {{data.mean}}</h3>
-  	<h3>Days Missed: {{data.missed}}</h3>
-  </div>
-  `
+  templateUrl: './stats.component.html'
 })
 export class StatsComponent implements OnInit  {
-stuName = 'Bob';
-courseName = 'Java';
+  stuName = 'Bob';
+  courseName = 'Java';
+  data: Data = {
+    mean: 0.6,
+    missed: 5
+  }
+  datas: Data[];
+  schedule: Schedule;
 
-datas: Data[];
+  constructor(private statService: StatService,
+              private sharedService: SharedService,
+              private scheduleService: ScheduleService,
+              private route: ActivatedRoute,
+              private location: Location
+  ) { }
+  // get courseName
+  // get stuName
+  getData(): void { //changed
+    this.statService.getData().then(datas => this.datas = datas);
+  }
 
-constructor(private statService: StatService) { }
-// get courseName
-// get stuName
-getData(): void { //changed
-  this.statService.getData().then(datas => this.datas = datas);
- }
+  goBack(): void {
+    this.location.back();
+  }
+
   ngOnInit(): void {
-  	this.getData();
+    this.route.params
+        .switchMap((params: Params) => this.scheduleService.getClass(+params['name']))
+        .subscribe(className => this.schedule = className);
+  	//this.getData();
   }
 
 }

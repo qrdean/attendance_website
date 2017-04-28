@@ -38,6 +38,8 @@ import { LoginButton }          from './l0gin/login.button';
 import { StatsComponent }       from './stats/stats.component';
 import { StatService }          from './stats/stats.service';
 
+import { SharedService }         from './shared.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,7 +58,8 @@ import { StatService }          from './stats/stats.service';
   providers: [
     ScheduleService,
     AuthService,
-    StatService
+    StatService,
+    SharedService
   ],
   bootstrap: [AppComponent]
 })

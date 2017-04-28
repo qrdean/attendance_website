@@ -14,10 +14,11 @@ import { Observable }         from 'rxjs/Rx';
 
 import { Schedule }           from './schedule';
 import { ScheduleService }    from './schedule.service';
-import { Greet }              from './greet';
-import { User }               from '../login/user';
+import { User }               from '../l0gin/user';
 import { LoginButton }        from '../l0gin/login.button';
 import { AuthService }        from '../auth.service';
+import { SharedService }      from '../shared.service';
+import { CrnClass }           from './crn.class';
 @Component({
   selector: 'my-schedule',
   templateUrl: './schedule.component.html',
@@ -25,7 +26,7 @@ import { AuthService }        from '../auth.service';
 })
 export class ScheduleComponent implements OnInit {
   schedules: Schedule[];
-  greeting: Greet;
+  crn: CrnClass[];
   hh: number;
   mm: number;
   message: string;
@@ -38,7 +39,8 @@ export class ScheduleComponent implements OnInit {
   constructor(
     private router: Router,
     private scheduleService: ScheduleService,
-    public authService: AuthService
+    public authService: AuthService,
+    private sharedService: SharedService
   ) {
     this.weekday=[
       'Sunday',
@@ -114,31 +116,50 @@ export class ScheduleComponent implements OnInit {
   updateAttendance(schedule: Schedule): void {
     var date = new Date();
     if(this.checkTime(schedule, date) && this.checkDay(schedule, date)) {
-      this.scheduleService.updateAttendance(schedule)
-          .then(schedule => schedule.attended = 1)
-      this.message = "You have successfully signed in!";
+      this.scheduleService.updateAttendance(schedule).then(resp => {
+        this.message = "You have successfully signed in!";
+        resp
+      });
+
     } else {
       this.message = "It is outside the time window to log in! " + date.getHours() + date.getMinutes();
     }
   }
 
-  // function call to the backend.
-  getSchedule(): void {
-    this.scheduleService.getSchedule().then(schedules => this.schedules = schedules);
+  getRealSchedule(user: User): void {
+    this.scheduleService.realGetSchedule(user).then(resp => {
+      this.crn = resp;
+        console.log(resp);
+        console.log(this.crn);}).then(() =>
+    this.isDataAvailable = true);
   }
 
-  logout() {
+  getRealSchedule2(crn: CrnClass[]): void {
+    this.scheduleService.realGetSchedule2(crn).then(schedules => this.schedules = schedules)
+  }
+
+  // function call to the backend.
+  getSchedule(): void {
+    this.scheduleService.getSchedule().then(schedules => {
+      this.schedules = schedules });
+  }
+
+  logout(): void {
     if(this.authService.isLoggedIn) {
       let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/login';
-      this.message = 'Redirected';
       this.router.navigate([redirect]);
     } else {
-      this.message = 'failed'
+      /* do nothing */
     }
     this.authService.logout();
   }
+  isDataAvailable:boolean = false;
   // Initializes the page
   ngOnInit(): void {
-    this.getSchedule();
+
+    //this.getSchedule();
+    //this.sharedService.setSchedule(this.schedules)
+    this.getRealSchedule(this.sharedService.getUser());
+    //this.getRealSchedule2(this.crn);
   }
 }

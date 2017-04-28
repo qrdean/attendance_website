@@ -10,6 +10,7 @@ import { Router }       from '@angular/router';
 import { User }         from './user';
 import { AuthService }  from '../auth.service';
 import { LoginButton }  from './login.button';
+import { SharedService } from '../shared.service';
 
 @Component({
   selector: 'my-login',
@@ -25,9 +26,9 @@ export class LoginComponent {
   };
 
     constructor(public authService: AuthService,
-                public router: Router) {
-                  this.setMessage();
-                }
+                public router: Router,
+                private sharedService: SharedService
+    ) {this.setMessage();}
 
     setMessage() {
       this.message = 'Logged ' + (this.authService.isLoggedIn ? 'in': 'out');
@@ -38,10 +39,11 @@ export class LoginComponent {
 
       this.authService.login(this.user).then/*subscribe*/(bool => {
         this.setMessage();
-        this.authService.isLoggedIn = bool
+        this.authService.isLoggedIn = bool;
         if(this.authService.isLoggedIn) {
           let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/schedule';
           this.message = this.authService.isLoggedIn.toString();
+          this.sharedService.setUser(this.user);
           this.router.navigate([redirect]);
         } else {
           this.message = this.authService.isLoggedIn.toString();

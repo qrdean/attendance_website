@@ -9,7 +9,6 @@ import 'rxjs/add/operator/delay';
 
 import 'rxjs/add/operator/toPromise';
 
-
 @Injectable()
 export class AuthService {
   isLoggedIn: boolean = false;
@@ -23,9 +22,6 @@ export class AuthService {
     return Observable.of(true).delay(1000).do(val => this.isLoggedIn = true);
   }
 
-  // permission level string
-  // id string
-  // password string
   login(user: User): Promise<boolean> {
     var creds = "userid=" + user.name + "&password=" + user.password;
     var headers = new Headers();

@@ -1,24 +1,18 @@
 <h1>{{weekday[date.getDay()]}} {{month[date.getMonth()]}}{{date | date: ' dd, yyyy'}}</h1>
 <h2>{{clock | async | date:'mediumTime'}}</h2>
 <p>
-  <span class="greet" *ngIf="greeting">{{greeting.id}} {{greeting.content}}</span>
-</p>
-<p>
+  <span>User name: {{sharedService.getUser().name}}</span>
   <span>{{message}}</span>
+  <span *ngIf="isDataAvailable">{{crn.courseName}}</span>
 </p>
 <table class="schedule">
   <tr class="header">
     <th>CRN</th>
     <th>Course Name</th>
-    <th>Time</th>
   </tr>
-  <tr *ngFor="let schedule of schedules" class="data" [routerLink]="['/stats', schedule.crn]">
-    <td class="crn">{{schedule.crn}}</td>
-    <td class="courseName">{{schedule.courseName}}</td>
-    <td>{{schedule.classTime}}</td>
-    <button (click)="updateAttendance(schedule)">
-      Attending Class
-    </button>
+  <tr *ngFor="let c of crn" class="data">
+    <td class="crn">{{c.crn}}</td>
+    <td class="courseName">{{c.courseName}}</td>
   </tr>
 </table>
 <p>

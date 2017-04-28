@@ -9,5 +9,5 @@ export class Schedule {
   room: number;
   classDay: string;
   classTime: string;
-  attended: number;
+  attended: boolean;
 }

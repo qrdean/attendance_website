@@ -31,6 +31,7 @@ export class StatService {
 //Step 4 - updated getData and new class members
 				//DEBUG/////////////////////////////////////////////////
   private dataUrl = 'api/datas';  // URL to web api
+  private statsUrl = 'http://50.24.235.40:8080/stats';
   constructor(private http: Http) { }
   getData(): Promise<Data[]> {
     return this.http.get(this.dataUrl)
@@ -38,6 +39,15 @@ export class StatService {
                .then(response => response.json().data as Data[])
                .catch(this.handleError);
   }
+
+  // returns a json object to compute on the front end.
+  getStats(): Promise<Data> {
+    return this.http.get(this.dataUrl)
+               .toPromise()
+               .then(response => response.json() as Data)
+               .catch(this.handleError);
+  }
+
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);
