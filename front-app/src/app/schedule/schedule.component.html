@@ -1,11 +1,8 @@
 <h1>{{weekday[date.getDay()]}} {{month[date.getMonth()]}}{{date | date: ' dd, yyyy'}}</h1>
 <h2>{{clock | async | date:'mediumTime'}}</h2>
-
-
+<h3>Logged in as: {{sharedService.getUser().name}}</h3>
 <p>
-  <span>User name: {{sharedService.getUser().name}}</span>
   <span>{{message}}</span>
-  <span *ngFor="let c of array">{{c.classDays}}</span>
 </p>
 <table class="schedule">
   <tr class="header">
@@ -13,9 +10,11 @@
     <th>Course Name</th>
     <th>Time</th>
   </tr>
-  <tr *ngFor="let a of crn" class="data">
-    <td class="courseName">{{a.crn}}</td>
-    <td class="courseName">{{a.classDays}}</td>
+  <tr *ngFor="let a of array" class="data">
+    <td class="crn">{{a.crn}}</td>
+    <td class="courseName">{{a.courseName}}</td>
+    <td class="time">{{a.classTime}}</td>
+    <button (click)="updateAttendance(a)">Attend Class</button>
   </tr>
 </table>
 <p>

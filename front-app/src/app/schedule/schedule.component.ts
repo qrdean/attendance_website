@@ -131,12 +131,21 @@ export class ScheduleComponent implements OnInit {
   getRealSchedule(user: User): void {
     this.scheduleService.realGetSchedule(user).subscribe(crn => {
       this.crn = crn;
-      console.log(crn);
-      console.log(this.crn);
+      //console.log(crn);
+      //console.log(this.crn[0]);
+      var crnObj = [];
       for(var i = 0; i < this.crn.length; i++) {
+        //console.log(i);
+        //console.log(this.crn.length-i-1);
+        var c = this.crn[this.crn.length-i-1];
+        crnObj.push(c);
+        //console.log(c)
         this.scheduleService.realGetSchedule2(this.crn[i], user).subscribe(resp => {
-          this.array.push(resp);
-          console.log(resp);
+          var obj = Object.assign({}, crnObj.pop(), resp);
+          //console.log(resp);
+          //console.log(crnObj);
+          //console.log(obj);
+          this.array.push(obj);
         })
       }
     })
