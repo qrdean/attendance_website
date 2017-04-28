@@ -7,14 +7,20 @@ Quinton Dean  4/25/2017 Created file
 */
 import { Component }    from '@angular/core';
 import { Router }       from '@angular/router';
+
 import { User }         from './user';
 import { AuthService }  from '../auth.service';
 import { LoginButton }  from './login.button';
 import { SharedService } from '../shared.service';
+import { ScheduleComponent }  from '../schedule/schedule.component';
+import { CrnClass }           from '../schedule/crn.class';
+import { Schedule }           from '../schedule/schedule';
+import { ScheduleService }    from '../schedule/schedule.service';
 
 @Component({
   selector: 'my-login',
-  templateUrl: './login.component.html'
+  templateUrl: './login.component.html',
+  providers: [ScheduleComponent]
 })
 export class LoginComponent {
   //message: string;
@@ -24,14 +30,52 @@ export class LoginComponent {
     password: '',
     permission: 'S'
   };
+  schedules: Schedule[];
+  //array = [];
+  test: Schedule;
+  crn: CrnClass[];
 
     constructor(public authService: AuthService,
                 public router: Router,
-                private sharedService: SharedService
+                private sharedService: SharedService,
+                private scheduleComponent: ScheduleComponent,
+                private scheduleService: ScheduleService
     ) {this.setMessage();}
 
     setMessage() {
       this.message = 'Logged ' + (this.authService.isLoggedIn ? 'in': 'out');
+    }
+
+    getRealSchedule(): void {
+      this.scheduleService.realGetSchedule(this.user).subscribe(crn => {
+        this.crn = crn;
+        console.log(crn);
+        console.log(this.crn);
+        var s = [];
+        var array = {};
+        var i;
+        for(i = 0; i < this.crn.length; i++) {
+          array[i] = {};
+          console.log(i);
+          console.log(array[i]);
+        }
+        for(i = 0; i < this.crn.length; i++) {
+          if( typeof array[i] == 'undefined') {console.log("un");/*this.array[i] = new Schedule();*/ console.log(array[i]);}
+          else { console.log('set');}
+          this.scheduleService.realGetSchedule2(this.crn[i], this.user).subscribe(resp => {
+            console.log(i);
+            array[i] = resp;
+            console.log(resp);
+            console.log(array[i]);
+            console.log(JSON.stringify(array[i]));
+
+            //console.log(this.sharedService.getSchedule());
+          })
+        }
+        for(i = 0; i < this.crn.length; i++) {
+          this.sharedService.setSchedule(JSON.stringify(array[i]), i);
+        }
+      })
     }
 
     login() {

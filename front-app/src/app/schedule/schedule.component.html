@@ -1,21 +1,26 @@
 <h1>{{weekday[date.getDay()]}} {{month[date.getMonth()]}}{{date | date: ' dd, yyyy'}}</h1>
 <h2>{{clock | async | date:'mediumTime'}}</h2>
+
+
 <p>
   <span>User name: {{sharedService.getUser().name}}</span>
   <span>{{message}}</span>
-  <span *ngIf="isDataAvailable">{{crn.courseName}}</span>
+  <span *ngFor="let c of array">{{c.classDays}}</span>
 </p>
 <table class="schedule">
   <tr class="header">
     <th>CRN</th>
     <th>Course Name</th>
+    <th>Time</th>
   </tr>
-  <tr *ngFor="let c of crn" class="data">
-    <td class="crn">{{c.crn}}</td>
-    <td class="courseName">{{c.courseName}}</td>
+  <tr *ngFor="let a of crn" class="data">
+    <td class="courseName">{{a.crn}}</td>
+    <td class="courseName">{{a.classDays}}</td>
   </tr>
 </table>
 <p>
   <button (click)="logout()">Logout</button>
 </p>
+
+
 <!-- put this on the <tr *ngFor> tag [routerLink]="['/detail', schedule.crn]" -->

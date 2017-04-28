@@ -8,6 +8,10 @@ Quinton Dean  4/7/2017  Added functionality: getSchedule(), handleError()
 */
 import { Injectable }     from '@angular/core';
 import { Headers, Http }  from '@angular/http';
+import { Observable }     from 'rxjs/Observable';
+
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -19,7 +23,8 @@ import { CrnClass }        from './crn.class';
 @Injectable()
 export class ScheduleService {
   private scheduleUrl = 'api/schedules'; // URL to web api
-  private headers = new Headers({'Content-Type': 'application/json'});
+  private headersJSON = new Headers({'Content-Type': 'application/json'});
+  private headersUrlEnc = new Headers({'Content-Type': 'application/x-www-form-urlencoded'});
   private classDataUrl = '../backend/classes';
   private statDataUrl = '../backend/stat';
   private realScheduleUrl = 'http://50.24.235.40:8080/courseList';
@@ -27,20 +32,20 @@ export class ScheduleService {
   constructor(private http: Http) { }
 
   // add user id in params passed.
-  realGetSchedule(user: User): Promise<CrnClass[]> {
+  realGetSchedule(user: User): Observable<CrnClass[]> {
     var creds = "id=" + user.name;
-    var headers = new Headers();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    return this.http.post(this.realScheduleUrl, creds, {headers: headers})
-                    .toPromise()
-                    .then(response => response.json() as CrnClass[])
+    return this.http.post(this.realScheduleUrl, creds, {headers: this.headersUrlEnc})
+                    .map(response => response.json() as CrnClass[])
                     .catch(this.handleError);
   }
 
-  realGetSchedule2(crn: CrnClass[]): Promise<Schedule[]> {
-    return this.http.post(this.realScheduleUrl2, {crn: crn}, {headers: this.headers})
-                    .toPromise()
-                    .then(response => response.json() as Schedule[])
+  realGetSchedule2(crn: CrnClass, user: User): Observable<Schedule> {
+    var crnString = JSON.stringify(crn);
+    var crnObj = JSON.parse(crnString);
+    var creds = "crn=" + Number(crnObj.crn) + "&id=" + Number(user.name);
+    //console.log(creds);
+    return this.http.post(this.realScheduleUrl2, creds, {headers: this.headersUrlEnc})
+                    .map(response => response.json() as Schedule)
                     .catch(this.handleError);
   }
 /*
@@ -48,18 +53,10 @@ export class ScheduleService {
     return this.http.post(this.scheduleUrl, )
   }
 */
-  getStats(user: User, schedule: Schedule): Promise<Stats> {
-    const url = `${this.statDataUrl}/${schedule.crn}`;
-    return this.http
-          .get(url)
-          .toPromise()
-          .then(response => response.json().data as Stats)
-          .catch(this.handleError);
-  }
 
   updateAttendance(schedule: Schedule): Promise<Schedule> {
     return this.http
-      .post(this.scheduleUrl, JSON.stringify(schedule), {headers: this.headers})
+      .post(this.scheduleUrl, JSON.stringify(schedule), {headers: this.headersJSON})
       .toPromise()
       .then(res => res.json().data as Schedule)
       .catch(this.handleError);
