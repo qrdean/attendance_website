@@ -1,12 +1,13 @@
-/*
-This page calls functions that are used to display the schedule of a Professor |
-Student and used to take attendance
-
-Quinton Dean  4/7/2017  Created
-Quinton Dean  4/7/2017  Added functionality: getSchedule(), ngOnInit()
-Quinton Dean  4/10/2017 Added functionality: parseTime(), checkDay(), checkTime(),
-Quinton Dean  4/14/2017 Fixed updateAttendance to initialize date var properly
-*/
+/*******************************************************************************
+* This page calls functions that are used to display the schedule of a Professor |
+* Student and used to take attendance
+*
+* @author         : Quinton Dean
+* @date_created:  : 4/7/2017
+* @last_modified  : 4/29/2017
+* @modified_by    : Quinton Dean
+*
+*******************************************************************************/
 
 import { Component, OnInit }  from '@angular/core';
 import { Router }             from '@angular/router';
@@ -14,8 +15,7 @@ import { Observable }         from 'rxjs/Rx';
 
 import { Schedule }           from './schedule';
 import { ScheduleService }    from './schedule.service';
-import { User }               from '../l0gin/user';
-import { LoginButton }        from '../l0gin/login.button';
+import { User }               from '../login/user';
 import { AuthService }        from '../auth.service';
 import { SharedService }      from '../shared.service';
 import { CrnClass }           from './crn.class';
@@ -27,7 +27,7 @@ import { CrnClass }           from './crn.class';
 export class ScheduleComponent implements OnInit {
   schedules: Schedule[];
   array = [];
-  test: Schedule;
+  areWeAttending: boolean = false;
   crn: CrnClass[];
   hh: number;
   mm: number;
@@ -80,11 +80,11 @@ export class ScheduleComponent implements OnInit {
 
   // Returns true if the day is the same as the day.
   checkDay(schedules: Schedule, date: Date): boolean {
-    if(schedules.classDays == 'MWF' && (date.getDay() == 1 || date.getDay() == 3 || date.getDay() == 5)) {
+    if(schedules.classDays == 'MWF' && (date.getDay() == 1 || date.getDay() == 3 || date.getDay() == 5 || date.getDay() == 0)) {
       return true;
-    } else if(schedules.classDays == 'MW' && (date.getDay() == 1 || date.getDay() == 3)) {
+    } else if(schedules.classDays == 'MW' && (date.getDay() == 1 || date.getDay() == 3 || date.getDay() == 0)) {
       return true;
-    } else if(schedules.classDays == 'TR' && (date.getDay() == 2 || date.getDay() == 4)) {
+    } else if(schedules.classDays == 'TR' && (date.getDay() == 2 || date.getDay() == 4 || date.getDay() ==0)) {
       return true;
     } else {
       return false;
@@ -96,21 +96,37 @@ export class ScheduleComponent implements OnInit {
     this.parseTime(schedules);
     var currentTime = date.getHours()
     if(this.mm == 0) {
-      if(date.getHours() == this.hh && date.getMinutes() <= 5 ||
-         date.getHours() == this.hh-1 && date.getMinutes() >= 55)
+      if(date.getHours() == this.hh && date.getMinutes() <= 59 ||
+         date.getHours() == this.hh-1 && date.getMinutes() >= 0)
       {
         return true;
       } else {
         return false;
       }
     } else if (this.mm == 30) {
-      if(date.getHours() == this.hh && date.getMinutes() <= 45 ||
-        date.getHours() == this.hh-1 && date.getMinutes() >= 25)
+      if(date.getHours() == this.hh && date.getMinutes() <= 59 ||
+        date.getHours() == this.hh-1 && date.getMinutes() >= 0)
       {
         return true;
       } else {
         return false;
       }
+    }
+  }
+
+  // This takes User, schedule, crn and everything
+  updateRealAttendance(user: string, schedule: Schedule, crn: string): void {
+    var date = new Date();
+    console.log("Check time returns: " + this.checkTime(schedule, date));
+    console.log("Check day returns: " + this.checkDay(schedule, date));
+    if(this.checkTime(schedule, date) && this.checkDay(schedule, date)) {
+      this.scheduleService.realUpdateAttendance(crn, user).then(resp => {
+        this.message = "You have successfully signed in!";
+        this.areWeAttending=true;
+      })
+    }  else {
+      this.message = "It is outside the time window to log in! " + date.getHours() + date.getMinutes();
+      this.areWeAttending=false;
     }
   }
 
@@ -122,47 +138,26 @@ export class ScheduleComponent implements OnInit {
         this.message = "You have successfully signed in!";
         resp
       });
-
     } else {
       this.message = "It is outside the time window to log in! " + date.getHours() + date.getMinutes();
     }
   }
 
-  getRealSchedule(user: User): void {
-    this.scheduleService.realGetSchedule(user).subscribe(crn => {
-      this.crn = crn;
-      //console.log(crn);
-      //console.log(this.crn[0]);
-      var crnObj = [];
-      for(var i = 0; i < this.crn.length; i++) {
-        //console.log(i);
-        //console.log(this.crn.length-i-1);
-        var c = this.crn[this.crn.length-i-1];
-        crnObj.push(c);
-        //console.log(c)
-        this.scheduleService.realGetSchedule2(this.crn[i], user).subscribe(resp => {
-          var obj = Object.assign({}, crnObj.pop(), resp);
-          //console.log(resp);
-          //console.log(crnObj);
-          //console.log(obj);
-          this.array.push(obj);
-        })
-      }
-    })
+  getCombinedSchedule(user: User): void {
+    this.scheduleService.getScheduleCombine(user).subscribe((resp: any) => {
+      console.log("sup");
+      console.log(resp);
+      var respString = JSON.stringify(resp);
+      var respObj = JSON.parse(respString);
+      console.log(respObj[0].classInfo.classDays);
+      this.array= resp;
+      console.log(this.array);
+    });
   }
-/*
-  getRealSchedule2(crn: CrnClass[]): void {
-    this.scheduleService.realGetSchedule2(crn,).then(schedules => {
-      this.schedules = schedules;
-      console.log(schedules);
-      console.log(this.schedules);})
-  }
-*/
 
-
-  // function call to the backend.
-  getSchedule(): void {
-    this.scheduleService.getSchedule().then(schedules => {
+  // test function call to the mock-backend.
+  getScheduleTest(): void {
+    this.scheduleService.getScheduleTest().then(schedules => {
       this.schedules = schedules });
   }
 
@@ -175,14 +170,10 @@ export class ScheduleComponent implements OnInit {
     }
     this.authService.logout();
   }
-  isDataAvailable:boolean = false;
-  isDataAvailable2:boolean = false;
+
   // Initializes the page
   ngOnInit(): void {
-
     //this.getSchedule();
-    //this.sharedService.setSchedule(this.schedules)
-    this.getRealSchedule(this.sharedService.getUser());
-
+    this.getCombinedSchedule(this.sharedService.getUser());
   }
 }

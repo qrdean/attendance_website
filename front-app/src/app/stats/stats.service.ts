@@ -1,13 +1,14 @@
-/**Author: Devin Madeley
-Date Made: 4-12-17
-Purpose: Service page for student statistics page
-Error Type: Need to accept data from backend
-parameters: (The right hand side is the equivilent in the Angular Tour of Heros tutorial, I followed step 5: services and step 7:HTTP)
-	DataService = HeroService
-	getData() = getHeros()
-	Data = Heroes
-	ALLDATA = ALLHEROES
-*/
+/*******************************************************************************
+*
+* This page defines the promise functions that communicate with the backend
+* and return either a valid value or an error that is caught and passed to handleError()
+*
+* @author         : Devin Madeley
+* @date_created:  : 4/12/17
+* @last_modified  : 4/26/17
+* @modified_by    : Quinton Dean
+*
+*******************************************************************************/
 
 import { Injectable } from '@angular/core';
 
@@ -16,8 +17,6 @@ import { Data } from './data';
 
 import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
-
-
 
 /**Allows other files to import*/
 @Injectable()

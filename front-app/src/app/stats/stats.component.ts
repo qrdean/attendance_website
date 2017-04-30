@@ -1,8 +1,13 @@
-/**Author: Devin Madeley
-Date Made: 4-11-17
-Purpose: Creates student statistics page
-Error Type: Need to accept data from backend
-*/
+/*******************************************************************************
+*
+* This page specifies the statics commands to get & display our data to the page
+*
+* @author         : Devin Madeley
+* @date_created:  : 4/11/17
+* @last_modified  : 4/26/17
+* @modified_by    : Quinton Dean
+*
+*******************************************************************************/
 
 import { Component, OnInit }      from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';

@@ -1,8 +1,18 @@
+/*******************************************************************************
+*
+* This page checks the DB and verifies that they a student
+*
+* @author         : Quinton Dean
+* @date_created:  : 4/25/2017
+* @last_modified  : 4/26/2017
+* @modified_by    : Quinton Dean
+*
+*******************************************************************************/
 import { Injectable }   from '@angular/core';
 import { Headers, Http }  from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
-import { User }       from './l0gin/user';
+import { User }       from './login/user';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/delay';

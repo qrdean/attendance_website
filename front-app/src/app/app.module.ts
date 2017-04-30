@@ -1,23 +1,16 @@
-/*
-This page defines all the modules that need to be linked together.
-
-When adding a module first:
-
-import { NameModule } from './relative/path/to/file.component';
-
-Add it to the @NgModule depending on what it is
-
-node_modules are put in the "import"
-
-Components are put in the "declarations"
-
-Services are put in the "providers"
-
-Quinton Dean  4/7/2017  Created
-Quinton Dean  4/7/2017  Imported app-routing.module, app.component,
-                        schedule.component, schedule.service
-
-*/
+/*******************************************************************************
+*
+* This page defines all the modules so they can be linked together.
+* node_modules are put in the "import"
+* Components are put in the "declarations"
+* Services are put in the "providers"
+*
+* @author         : Quinton Dean
+* @date_created:  : 4/7/2017
+* @last_modified  : 4/27/2017
+* @modified_by    : Quinton Dean
+*
+*******************************************************************************/
 
 import { NgModule }             from '@angular/core';
 import { BrowserModule }        from '@angular/platform-browser';
@@ -33,8 +26,7 @@ import { AppComponent }         from './app.component';
 import { AuthService }          from './auth.service';
 import { ScheduleComponent }    from './schedule/schedule.component';
 import { ScheduleService }      from './schedule/schedule.service';
-import { LoginComponent }       from './l0gin/login.component';
-import { LoginButton }          from './l0gin/login.button';
+import { LoginComponent }       from './login/login.component';
 import { StatsComponent }       from './stats/stats.component';
 import { StatService }          from './stats/stats.service';
 
@@ -45,7 +37,6 @@ import { SharedService }         from './shared.service';
     AppComponent,
     ScheduleComponent,
     LoginComponent,
-    LoginButton,
     StatsComponent
   ],
   imports: [

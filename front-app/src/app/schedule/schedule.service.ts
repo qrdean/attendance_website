@@ -1,11 +1,16 @@
-/*
-This page defines the promise functions that communicate with the backend
-and return either a valid value or an error that is caught and passed to handleError()
+/*******************************************************************************
+*
+* This page defines the promise functions that communicate with the backend
+* and return either a valid value or an error that is caught and passed to
+* handleError()
+*
+* @author         : Quinton Dean
+* @date_created:  : 4/7/2017
+* @last_modified  : 4/29/2017
+* @modified_by    : Quinton Dean
+*
+*******************************************************************************/
 
-Quinton Dean  4/7/2017  Created
-Quinton Dean  4/7/2017  Added functionality: getSchedule(), handleError()
-                        TODO: fix updateAttendance function
-*/
 import { Injectable }     from '@angular/core';
 import { Headers, Http }  from '@angular/http';
 import { Observable }     from 'rxjs/Observable';
@@ -16,9 +21,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 
 import { Schedule }        from './schedule';
-import { User }            from '../l0gin/user';
-import { Stats }           from '../stats';
-import { Greet }           from './greet';
+import { User }            from '../login/user';
 import { CrnClass }        from './crn.class';
 @Injectable()
 export class ScheduleService {
@@ -29,7 +32,31 @@ export class ScheduleService {
   private statDataUrl = '../backend/stat';
   private realScheduleUrl = 'http://50.24.235.40:8080/courseList';
   private realScheduleUrl2 = 'http://50.24.235.40:8080/courseInfo';
+  private realAttendanceUrl = 'http://50.24.235.40:8080/attend';
   constructor(private http: Http) { }
+
+
+  getScheduleCombine(user: User): Observable<any[]> {
+    var creds = "id=" + user.name;
+    return this.http.post(this.realScheduleUrl, creds, {headers: this.headersUrlEnc})
+      .map((res: any) => res.json())
+      .flatMap((resp2: any[]) => {
+        if(resp2.length > 0) {
+          return Observable.forkJoin(
+            resp2.map((resp3: any) => {
+              var creds2 = "crn=" + Number(resp3.crn) + "&id=" + Number(user.name);
+              return this.http.post(this.realScheduleUrl2, creds2, {headers: this.headersUrlEnc})
+                .map((res: any) => {
+                  let classInfo: any = res.json();
+                  resp3.classInfo = classInfo;
+                  return resp3;
+                })
+            })
+          )
+        }
+        return Observable.of([]);
+      })
+  }
 
   // add user id in params passed.
   realGetSchedule(user: User): Observable<CrnClass[]> {
@@ -46,13 +73,18 @@ export class ScheduleService {
     //console.log(creds);
     return this.http.post(this.realScheduleUrl2, creds, {headers: this.headersUrlEnc})
                     .map(response => response.json() as Schedule)
+                    .delay(200)
                     .catch(this.handleError);
   }
-/*
-  realUpdateAttendance(user:User): Promise<Schedule> {
-    return this.http.post(this.scheduleUrl, )
+
+  realUpdateAttendance(crn: string, user: string): Promise<boolean> {
+    var creds = "crn=" + Number(crn) + "&id=" + Number(user);
+    return this.http
+               .post(this.realAttendanceUrl, creds, {headers: this.headersUrlEnc})
+               .toPromise()
+               .then(response => response.json() as boolean)
+               .catch(this.handleError);
   }
-*/
 
   updateAttendance(schedule: Schedule): Promise<Schedule> {
     return this.http
@@ -63,7 +95,7 @@ export class ScheduleService {
   }
 
   // add user id in params passed.
-  getSchedule(): Promise<Schedule[]> {
+  getScheduleTest(): Promise<Schedule[]> {
     return this.http.get(this.scheduleUrl)
                     .toPromise()
                     .then(response => response.json().data as Schedule[])

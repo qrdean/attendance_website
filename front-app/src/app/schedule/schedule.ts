@@ -1,8 +1,17 @@
-/*
-Quinton Dean 4/7/2017   Created
-Quinton Dean 4/10/2017  Edited data structure to reflect ER diagram for classes
-*/
+/*******************************************************************************
+*
+* This page specifies our Schedule format
+*
+* @author         : Quinton Dean
+* @date_created:  : 4/7/2017
+* @last_modified  : 4/26/2017
+* @modified_by    : Quinton Dean
+*
+*******************************************************************************/
+
 export class Schedule {
+  crn: string;
+  courseName: string;
   classDays: string;
   classTime: string;
   numDays: number;

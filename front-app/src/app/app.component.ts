@@ -1,15 +1,18 @@
-/*
-This is the "head" of the component webpage. It will be the home page of the
-Student | Professor. The top link in <a></a> brackets will navigate around the site
+/*******************************************************************************
+*
+* This is the "head" of the component webpage. It will be the home page of the
+* login. The link in <a></a> brackets in the html will navigate around the
+* site
+*
+* @author         : Quinton Dean
+* @date_created:  : 4/7/2017
+* @last_modified  : 4/10/2017
+* @modified_by    : Quinton Dean
+*
+*******************************************************************************/
 
-Quinton Dean  4/7/2017  Created
-Quinton Dean  4/10/2017 Included the Date() function.
-        Created conversion from int to string for day of the week & month
-        Created clock that counts the time in HH:MM:SS AM|PM
-*/
 import { Component, OnInit }  from '@angular/core';
 import { Router }             from '@angular/router'
-//import { Date }      from './date';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

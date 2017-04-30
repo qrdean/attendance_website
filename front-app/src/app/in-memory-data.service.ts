@@ -1,9 +1,15 @@
-/*
-Just used for testing until connected to the backend
+/*******************************************************************************
+*
+* This page was just for testing display for the schedules until we connected
+* to the backend
+*
+* @author         : Quinton Dean
+* @date_created:  : 4/7/2017
+* @last_modified  : 4/25/2017
+* @modified_by    : Quinton Dean
+*
+*******************************************************************************/
 
-Quinton Dean  4/7/2017    Created
-Quinton Dean  4/10/2017   Edited test data to reflect ER diagram for classes
-*/
 import { InMemoryDbService } from 'angular-in-memory-web-api';
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {

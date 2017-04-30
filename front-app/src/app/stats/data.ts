@@ -1,13 +1,13 @@
-/**Author: Devin Madeley
-Date Made: 4-12-17
-Purpose: Creates the class 'Data' for the student statistics page
-Error Type: Need to accept data from backend
-parameters:
-	DataService = HeroService
-	datas = heroes
-	Data = Hero
-	getData() = getHeros()
-*/
+/*******************************************************************************
+*
+* This page specifies our data for statistics
+*
+* @author         : Devin Madeley
+* @date_created:  : 4/12/17
+* @last_modified  : 4/12/17
+* @modified_by    : Devin Madeley
+*
+*******************************************************************************/
 
 export class Data {
   mean: number;

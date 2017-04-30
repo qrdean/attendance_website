@@ -1,0 +1,46 @@
+h1 {
+color: OrangeRed;
+text-align: center;
+font-family: Times New Roman;
+font-size: 30px;
+}
+
+body {
+background-color: lightblue;
+}
+
+label{
+color: Black;
+font-family: Times New Roman;
+font-size: 14px;
+display: table-cell;
+font-style: bold;
+}
+
+input{
+ display: table-cell;
+}
+
+h2 {
+color: blue;
+text-align: center;
+font-family: Times New Roman;
+font-size: 60px;
+}
+
+p{
+color: black;
+font-family: Times New Roman;
+font-size: 18px;
+}
+
+button{
+color: black;
+background-color: white;
+}
+
+h3{
+	font-style: italic;
+	font-family: Times New Roman;
+	color: black;
+}

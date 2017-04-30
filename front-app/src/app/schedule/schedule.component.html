@@ -1,6 +1,6 @@
-<h1>{{weekday[date.getDay()]}} {{month[date.getMonth()]}}{{date | date: ' dd, yyyy'}}</h1>
-<h2>{{clock | async | date:'mediumTime'}}</h2>
-<h3>Logged in as: {{sharedService.getUser().name}}</h3>
+<h1>Logged in as: {{sharedService.getUser().name}}</h1>
+<h2>{{weekday[date.getDay()]}} {{month[date.getMonth()]}}{{date | date: ' dd, yyyy'}}</h2>
+<h3>{{clock | async | date:'mediumTime'}}</h3>
 <p>
   <span>{{message}}</span>
 </p>
@@ -9,17 +9,18 @@
     <th>CRN</th>
     <th>Course Name</th>
     <th>Time</th>
+    <th>Class Day</th>
   </tr>
   <tr *ngFor="let a of array" class="data">
     <td class="crn">{{a.crn}}</td>
     <td class="courseName">{{a.courseName}}</td>
-    <td class="time">{{a.classTime}}</td>
-    <button (click)="updateAttendance(a)">Attend Class</button>
+    <td class="time">{{a.classInfo.classTime}}</td>
+    <td class="courseName">{{a.classInfo.classDays}}</td>
+    <button (click)="updateRealAttendance(sharedService.getUser().name, a.classInfo, a.crn)">Attend Class</button>
   </tr>
 </table>
 <p>
   <button (click)="logout()">Logout</button>
 </p>
-
 
 <!-- put this on the <tr *ngFor> tag [routerLink]="['/detail', schedule.crn]" -->

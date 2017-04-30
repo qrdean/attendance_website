@@ -1,21 +1,21 @@
-/*
-This file defines the "routes" of the web application and which components each
-path will be linked together.
-
-Define routes in this module
-
-Quinton Dean  4/7/2017  Created file
-Quinton Dean  4/7/2017  Added path schedule and set /schedule as default path
-Quinton Dean  4/10/2017 Added paths for future modules
-
-*/
+/*******************************************************************************
+*
+* This file defines the "routes" of the web application and which components
+* the path will be linked to.
+*
+* @author         : Quinton Dean
+* @date_created:  : 4/7/2017
+* @last_modified  : 4/27/2017
+* @modified_by    : Quinton Dean
+*
+*******************************************************************************/
 
 import { NgModule }             from '@angular/core';
 import { RouterModule, Routes}  from '@angular/router';
 import { AuthGuard }            from './auth-guard.service';
 
 import { ScheduleComponent }    from './schedule/schedule.component';
-import { LoginComponent }       from './l0gin/login.component';
+import { LoginComponent }       from './login/login.component';
 import { StatsComponent }       from './stats/stats.component';
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
