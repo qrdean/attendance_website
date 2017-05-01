@@ -50,10 +50,10 @@ export class StatsComponent implements OnInit  {
   }
 
   ngOnInit(): void {
-    this.route.params
+    /*this.route.params
         .switchMap((params: Params) => this.scheduleService.getClass(+params['name']))
         .subscribe(className => this.schedule = className);
-  	//this.getData();
+  	//this.getData();*/
   }
 
 }

@@ -30,7 +30,6 @@ export class StatService {
 //Step 4 - updated getData and new class members
 				//DEBUG/////////////////////////////////////////////////
   private dataUrl = 'api/datas';  // URL to web api
-  private statsUrl = 'http://50.24.235.40:8080/stats';
   constructor(private http: Http) { }
   getData(): Promise<Data[]> {
     return this.http.get(this.dataUrl)

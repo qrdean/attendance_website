@@ -34,6 +34,7 @@ export class AuthService {
 
   login(user: User): Promise<boolean> {
     var creds = "userid=" + user.name + "&password=" + user.password;
+    console.log(user.name);
     var headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
     return this.http.post(this.loginUrlReal,

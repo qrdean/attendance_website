@@ -20,7 +20,7 @@ import { HttpModule }           from '@angular/http';
 import { AppRouterModule }      from './app-routing.module';
 
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService }  from './in-memory-data.service';
+import { InMemoryDataService }  from './stats/in-memory-data.service';
 
 import { AppComponent }         from './app.component';
 import { AuthService }          from './auth.service';

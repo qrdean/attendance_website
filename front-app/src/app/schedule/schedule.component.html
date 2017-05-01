@@ -1,6 +1,6 @@
-<h1>Logged in as: {{sharedService.getUser().name}}</h1>
+<h1>Welcome: {{sharedService.getUser().name}}</h1>
 <h2>{{weekday[date.getDay()]}} {{month[date.getMonth()]}}{{date | date: ' dd, yyyy'}}</h2>
-<h3>{{clock | async | date:'mediumTime'}}</h3>
+<h3>Current Time: {{clock | async | date:'mediumTime'}}</h3>
 <p>
   <span>{{message}}</span>
 </p>

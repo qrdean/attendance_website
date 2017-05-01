@@ -125,33 +125,15 @@ export class ScheduleComponent implements OnInit {
         this.areWeAttending=true;
       })
     }  else {
-      this.message = "It is outside the time window to log in! " + date.getHours() + date.getMinutes();
+      this.message = "It is outside the time window to log in!";
       this.areWeAttending=false;
     }
   }
 
-  // posts a 1 to the back end if the current time is within the parameters.
-  updateAttendance(schedule: Schedule): void {
-    var date = new Date();
-    if(this.checkTime(schedule, date) && this.checkDay(schedule, date)) {
-      this.scheduleService.updateAttendance(schedule).then(resp => {
-        this.message = "You have successfully signed in!";
-        resp
-      });
-    } else {
-      this.message = "It is outside the time window to log in! " + date.getHours() + date.getMinutes();
-    }
-  }
-
+  // Does a call to get the the schedule to the front end
   getCombinedSchedule(user: User): void {
     this.scheduleService.getScheduleCombine(user).subscribe((resp: any) => {
-      console.log("sup");
-      console.log(resp);
-      var respString = JSON.stringify(resp);
-      var respObj = JSON.parse(respString);
-      console.log(respObj[0].classInfo.classDays);
-      this.array= resp;
-      console.log(this.array);
+      this.array = resp;
     });
   }
 
@@ -161,6 +143,7 @@ export class ScheduleComponent implements OnInit {
       this.schedules = schedules });
   }
 
+  // Logout :D
   logout(): void {
     if(this.authService.isLoggedIn) {
       let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/login';
@@ -173,7 +156,6 @@ export class ScheduleComponent implements OnInit {
 
   // Initializes the page
   ngOnInit(): void {
-    //this.getSchedule();
     this.getCombinedSchedule(this.sharedService.getUser());
   }
 }

@@ -28,7 +28,6 @@ import { ScheduleService }    from '../schedule/schedule.service';
   providers: [ScheduleComponent]
 })
 export class LoginComponent {
-  //message: string;
   message = '';
   user: User = {
     name: '',
@@ -36,40 +35,38 @@ export class LoginComponent {
     permission: 'S'
   };
   schedules: Schedule[];
-  //array = [];
-  test: Schedule;
   crn: CrnClass[];
 
-    constructor(public authService: AuthService,
-                public router: Router,
-                private sharedService: SharedService,
-                private scheduleComponent: ScheduleComponent,
-                private scheduleService: ScheduleService
-    ) {this.setMessage();}
+  constructor(public authService: AuthService,
+              public router: Router,
+              private sharedService: SharedService,
+              private scheduleComponent: ScheduleComponent,
+              private scheduleService: ScheduleService
+  ) {this.setMessage();}
 
-    setMessage() {
-      this.message = 'Logged ' + (this.authService.isLoggedIn ? 'in': 'out');
-    }
+  setMessage() {
+    this.message = 'Logged ' + (this.authService.isLoggedIn ? 'in': 'out');
+  }
 
-    login() {
-      this.message = this.user.name + this.user.password;
-
-      this.authService.login(this.user).then/*subscribe*/(bool => {
-        this.setMessage();
-        this.authService.isLoggedIn = bool;
-        if(this.authService.isLoggedIn) {
-          let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/schedule';
-          this.message = this.authService.isLoggedIn.toString();
-          this.sharedService.setUser(this.user);
-          this.router.navigate([redirect]);
-        } else {
-          this.message = this.authService.isLoggedIn.toString();
-        }
-      });
-    }
-
-    logout() {
-      this.authService.logout();
+  login() {
+    this.message = "Logging you in...";
+    console.log(this.user);
+    this.authService.login(this.user).then(bool => {
       this.setMessage();
-    }
+      this.authService.isLoggedIn = bool;
+      if(this.authService.isLoggedIn) {
+        let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/schedule';
+        this.message = this.authService.isLoggedIn.toString();
+        this.sharedService.setUser(this.user);
+        this.router.navigate([redirect]);
+      } else {
+        this.message = this.authService.isLoggedIn.toString();
+      }
+    });
+  }
+
+  logout() {
+    this.authService.logout();
+    this.setMessage();
+  }
 }
