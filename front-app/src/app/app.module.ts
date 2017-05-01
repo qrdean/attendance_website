@@ -20,14 +20,14 @@ import { HttpModule }           from '@angular/http';
 import { AppRouterModule }      from './app-routing.module';
 
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService }  from './stats/in-memory-data.service';
+import { InMemoryDataService }  from './in-memory-data.service';
 
 import { AppComponent }         from './app.component';
 import { AuthService }          from './auth.service';
 import { ScheduleComponent }    from './schedule/schedule.component';
 import { ScheduleService }      from './schedule/schedule.service';
 import { LoginComponent }       from './login/login.component';
-import { StatsComponent }       from './stats/stats.component';
+import { StatComponent }       from './stats/stats.component';
 import { StatService }          from './stats/stats.service';
 
 import { SharedService }         from './shared.service';
@@ -37,7 +37,7 @@ import { SharedService }         from './shared.service';
     AppComponent,
     ScheduleComponent,
     LoginComponent,
-    StatsComponent
+    StatComponent
   ],
   imports: [
     BrowserModule,

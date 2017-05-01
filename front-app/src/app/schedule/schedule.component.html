@@ -12,10 +12,10 @@
     <th>Class Day</th>
   </tr>
   <tr *ngFor="let a of array" class="data">
-    <td class="crn">{{a.crn}}</td>
-    <td class="courseName">{{a.courseName}}</td>
-    <td class="time">{{a.classInfo.classTime}}</td>
-    <td class="courseName">{{a.classInfo.classDays}}</td>
+    <td class="crn" [routerLink]="['/stats', a.crn]">{{a.crn}}</td>
+    <td class="courseName" [routerLink]="['/stats', a.crn]">{{a.courseName}}</td>
+    <td class="time" [routerLink]="['/stats', a.crn]">{{a.classInfo.classTime}}</td>
+    <td class="courseName" [routerLink]="['/stats', a.crn]">{{a.classInfo.classDays}}</td>
     <button (click)="updateRealAttendance(sharedService.getUser().name, a.classInfo, a.crn)">Attend Class</button>
   </tr>
 </table>

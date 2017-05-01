@@ -1,47 +1,21 @@
-/*******************************************************************************
-*
-* This page was just for testing display for the schedules until we connected
-* to the backend
-*
-* @author         : Quinton Dean
-* @date_created:  : 4/7/2017
-* @last_modified  : 4/25/2017
-* @modified_by    : Quinton Dean
-*
-*******************************************************************************/
-
+/**Author: Devin Madeley
+Date Made: 4-24-17
+Last Modified: 4-24-17
+Related to Statistics Page
+Purpose: Uses InMemoryDbService to create data and return it
+	 Replaces mock-data
+*/
+//replacing the Http client's XHR backend
+//service with an in-memory alternative
 import { InMemoryDbService } from 'angular-in-memory-web-api';
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
-    let schedules = [
-      {
-        crn: 20204,
-        courseName: 'compiler design',
-        professor: '666666',
-        room: "AB1-206",
-        classDay: 'MWF',
-        classTime: '02:00',
-        numberOfSessions: 31
-      },
-      {
-        crn: 20207,
-        courseName: 'software engineering',
-        professor: '666666',
-        room: "AB1-206",
-        classDay: 'MWF',
-        classTime: '09:00',
-        numberOfSessions: 47
-      },
-      {
-        crn: 20215,
-        courseName: 'operating systems',
-        professor: '666666',
-        room: "AB1-206",
-        classDay: 'MWF',
-        classTime: '12:00',
-        numberOfSessions: 47
-      },
+    let datas = [
+      { id: "20193", mean: 1, missed: 0 },
+      { id: "20204", mean: .9, missed: 3 },
+      { id: "20207", mean: .5, missed: 20 },
+      { id: "20215", mean: .8, missed: 5 }
     ];
-    return {schedules};
+    return {datas};
   }
 }

@@ -1,6 +1,7 @@
+<div *ngIf="data">
 <h1>Statistics Page</h1>
-<h2>Hello {{sharedService.getUser().name}}</h2>
-<h2>{{sharedService.getSchedule().courseName}}</h2>
+<h2>Name: {{sharedService.getUser().name}}</h2>
 <h3>Mean: {{data.mean}}</h3>
 <h3>Days Missed: {{data.missed}}</h3>
 <button (click)="goBack()">Back</button>
+</div>

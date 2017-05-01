@@ -1,59 +1,48 @@
-/*******************************************************************************
-*
-* This page specifies the statics commands to get & display our data to the page
-*
-* @author         : Devin Madeley
-* @date_created:  : 4/11/17
-* @last_modified  : 4/26/17
-* @modified_by    : Quinton Dean
-*
-*******************************************************************************/
-
+/**Author: Devin Madeley
+Date Made: 4-11-17
+Last Modified: 4-24-17
+Related to Statistics Page
+Purpose: Creates student statistics page; main component
+*/
+//Imports allow data to be referencedssss
 import { Component, OnInit }      from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Location }               from '@angular/common';
+import 'rxjs/add/operator/switchMap';
 
 import { StatService }            from './stats.service';
-import { SharedService }          from '../shared.service';
-import { ScheduleService }        from '../schedule/schedule.service';
-import { Schedule }               from '../schedule/schedule';
+import { SharedService }      from '../shared.service';
 import { Data }                   from './data';
 
 @Component({
   selector: 'my-stats',
-  templateUrl: './stats.component.html'
+  templateUrl: './stats.component.html',
+  styleUrls: [ './stats.component.css' ]
 })
-export class StatsComponent implements OnInit  {
-  stuName = 'Bob';
-  courseName = 'Java';
-  data: Data = {
-    mean: 0.6,
-    missed: 5
-  }
-  datas: Data[];
-  schedule: Schedule;
+export class StatComponent implements OnInit  {
+  //Static data
+  data: Data;
 
+  //The constructor simultaneously defines a private DataService
+  //property and identifies it as a DataService injection site.
   constructor(private statService: StatService,
-              private sharedService: SharedService,
-              private scheduleService: ScheduleService,
               private route: ActivatedRoute,
-              private location: Location
-  ) { }
-  // get courseName
-  // get stuName
-  getData(): void { //changed
-    this.statService.getData().then(datas => this.datas = datas);
-  }
+              private location: Location,
+              private sharedService: SharedService
+            ) { }
 
-  goBack(): void {
-    this.location.back();
-  }
-
+ //Allows angular to call getData()
   ngOnInit(): void {
-    /*this.route.params
-        .switchMap((params: Params) => this.scheduleService.getClass(+params['name']))
-        .subscribe(className => this.schedule = className);
-  	//this.getData();*/
+  	this.route.params
+  		.switchMap((params:Params) => this.statService.getData(+params['crn']))
+  		.subscribe(data => {
+        console.log(data);
+        this.data = data;
+        console.log(this.data);
+      });
   }
 
+  goBack(): void  {
+	   this.location.back();
+	}
 }

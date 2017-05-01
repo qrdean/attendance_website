@@ -6,7 +6,7 @@
 *
 * @author         : Quinton Dean
 * @date_created:  : 4/7/2017
-* @last_modified  : 4/29/2017
+* @last_modified  : 4/30/2017
 * @modified_by    : Quinton Dean
 *
 *******************************************************************************/
@@ -33,6 +33,7 @@ export class ScheduleService {
   private realAttendanceUrl = 'http://50.24.235.40:8080/attend';
   constructor(private http: Http) { }
 
+  // Gets the schedule
   getScheduleCombine(user: User): Observable<any[]> {
     var creds = "id=" + user.name;
     return this.http.post(this.realScheduleUrl, creds, {headers: this.headersUrlEnc})
@@ -55,6 +56,7 @@ export class ScheduleService {
       })
   }
 
+  // Updates the attendance in the database
   realUpdateAttendance(crn: string, user: string): Promise<boolean> {
     var creds = "crn=" + Number(crn) + "&id=" + Number(user);
     return this.http
